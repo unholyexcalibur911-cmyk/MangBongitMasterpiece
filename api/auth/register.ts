@@ -47,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const result = await users.insertOne({
       name,
       email,
-      password: hashedPassword,
+      passwordHash: hashedPassword, // <-- use passwordHash
       createdAt: new Date()
     });
 

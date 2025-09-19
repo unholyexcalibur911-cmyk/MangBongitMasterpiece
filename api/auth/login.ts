@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Compare hashed password
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, user.passwordHash);
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
