@@ -20,7 +20,10 @@ const UnderMaintenance: React.FC = () => {
             setShowJCE(false);
             setProgress(0);
             intervalRef.current = window.setInterval(() => {
-              setProgress((p) => (p >= 100 ? p : p + Math.random() * 0.2 + 0.01)); // slower increment
+              setProgress((p) => (p >= 100 ? p : p + Math.random() * 0.2 + 0.01)); 
+                if(p >= 50){
+                  setProgress((p) => (p >= 100 ? p : p + Math.random() * 0.05 + 0.001));
+                }// slower increment
             }, 50); // slower interval
           }, JCE_ANIMATION_DURATION);
           return 100;
