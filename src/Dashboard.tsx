@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./Dashboard.module.css";
 
 const initialBoards = [
@@ -91,7 +91,7 @@ const initialBoards = [
 ];
 
 function Dashboard() {
-  const [boards, setBoards] = useState(initialBoards);
+  const [boards] = useState(initialBoards);
 
   // Add, delete, update logic for boards, sections, cards can be implemented here
 
