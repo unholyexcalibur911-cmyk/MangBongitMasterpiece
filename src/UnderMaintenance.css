@@ -1,0 +1,81 @@
+.dmc-bg {
+  min-height: 100vh;
+  background: radial-gradient(circle at 60% 40%, #2d1b2b 0%, #0a0a0a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+}
+
+.dmc-card {
+  background: linear-gradient(135deg, rgba(40,0,0,0.95) 0%, rgba(0,0,40,0.95) 100%);
+  border: 3px solid #b30000;
+  box-shadow: 0 0 32px 8px #b3000088, 0 0 64px 0 #222 inset;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  animation: dmcFadeIn 1.2s;
+  color: #f8f8f8;
+  position: relative;
+}
+
+.dmc-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #b30000;
+  text-shadow: 0 0 16px #b30000, 0 0 32px #222;
+  animation: dmcPulse 1.5s infinite alternate;
+}
+
+.dmc-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #b30000;
+  text-shadow: 0 0 8px #b30000, 0 0 24px #222;
+  margin-bottom: 1.2rem;
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+}
+
+.dmc-message {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  color: #e0e0e0;
+  text-shadow: 0 0 8px #222;
+}
+
+.dmc-red {
+  color: #b30000;
+  font-weight: bold;
+  text-shadow: 0 0 8px #b30000;
+}
+
+.dmc-blue {
+  color: #00b3e6;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00b3e6;
+}
+
+.dmc-footer {
+  font-size: 1rem;
+  color: #b30000;
+  background: rgba(0,0,0,0.7);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px #b3000044;
+  letter-spacing: 1px;
+  font-family: 'Cinzel', 'Trajan Pro', serif;
+}
+
+@keyframes dmcFadeIn {
+  from { opacity: 0; transform: scale(0.95);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+@keyframes dmcPulse {
+  from { text-shadow: 0 0 16px #b30000, 0 0 32px #222;}
+  to { text-shadow: 0 0 32px #b30000, 0 0 64px #222;}
+}

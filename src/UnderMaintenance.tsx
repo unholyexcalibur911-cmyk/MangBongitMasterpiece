@@ -1,30 +1,19 @@
 import React from "react";
-import "./index.css";
+import "./UnderMaintenance.css";
 
 const UnderMaintenance: React.FC = () => (
-  <div style={{
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#f8fafc",
-    color: "#222",
-    fontFamily: "sans-serif"
-  }}>
-    <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🚧 Under Maintenance 🚧</h1>
-    <p style={{ fontSize: "1.25rem", marginBottom: "2rem" }}>
-      Our website is currently undergoing scheduled maintenance.<br />
-      Please check back later.
-    </p>
-    <div style={{
-      background: "#fff",
-      padding: "1rem 2rem",
-      borderRadius: "8px",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
-      fontSize: "1rem"
-    }}>
-      Thank you for your patience!
+  <div className="dmc-bg">
+    <div className="dmc-card">
+      <div className="dmc-icon">🩸</div>
+      <h1 className="dmc-title">UNDER MAINTENANCE</h1>
+      <p className="dmc-message">
+        <span className="dmc-red">The gates are sealed.</span><br />
+        Our crew is slaying bugs and demons.<br />
+        <span className="dmc-blue">Check back soon for stylish action!</span>
+      </p>
+      <div className="dmc-footer">
+        <span>AyaSync Team</span>
+      </div>
     </div>
   </div>
 );
