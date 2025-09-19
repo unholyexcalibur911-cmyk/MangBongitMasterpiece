@@ -34,7 +34,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [failedAttempts] = useState(0);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalAnimation, setModalAnimation] = useState(false);
@@ -128,27 +128,22 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       if (registerPassword !== registerConfirm) {
         throw new Error("Passwords do not match");
       }
-      const registrationData = {
-        name: registerUsername,
-        email: registerEmail,
-        password: registerPassword,
-        role: registerUserType,
-      };
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registrationData),
+        body: JSON.stringify({ name: registerUsername, email: registerEmail, password: registerPassword }),
       });
-      const text = await res.text();
-      let data: any = {};
-      try {
-        data = text ? JSON.parse(text) : {};
-      } catch {}
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error(
-          data?.error || `Registration failed (HTTP ${res.status})`
-        );
+        setRegisterError(data.message || "Registration failed");
+        return;
       }
+
+      // Optionally log in after registration
+      localStorage.setItem("authUser", JSON.stringify(data.user));
+      onSuccess();
+
       // Send registration confirmation email
       try {
         await emailjs.send(
@@ -207,25 +202,18 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: loginEmail || email,
-          password: loginPassword || password,
-          userType,
-        }),
+        body: JSON.stringify({ email: loginEmail ?? email, password: loginPassword ?? password }),
       });
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
-      console.log("Login request:", { email: loginEmail || email, userType });
-      console.log("Login response:", { ...data, token: "[HIDDEN]" });
+      const data = await res.json();
 
       if (!res.ok) {
-        const newAttempts = failedAttempts + 1;
-        setFailedAttempts(newAttempts);
-        throw new Error(data?.error || `Login failed (HTTP ${res.status})`);
+        setError(data.message || "Login failed");
+        return;
       }
 
-      localStorage.setItem("authToken", data.token);
-      setFailedAttempts(0);
+      // Save user info to localStorage if needed
+      localStorage.setItem("authUser", JSON.stringify(data.user));
+      // If you use JWT, save token here (your API currently does not return a token)
       onSuccess();
     } catch (err: any) {
       // Re-throw the error to be caught by the calling function (onSubmit)
