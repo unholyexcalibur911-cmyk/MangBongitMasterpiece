@@ -31,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const client = await connectToDatabase();
-    const db = client.db(process.env.MONGODB_DB || "ayasync");
+    const db = client.db(process.env.MONGODB_DB || "pms");
     const users = db.collection("users");
 
     // Check if user exists
