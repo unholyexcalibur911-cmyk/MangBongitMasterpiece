@@ -5,18 +5,26 @@ export interface Activity {
   target?: string;
   details?: string;
   timestamp: string;
-  type: 'task' | 'connection' | 'profile' | 'admin' | 'system' | 'team' | 'member' | 'invitation';
+  type:
+    | "task"
+    | "connection"
+    | "profile"
+    | "admin"
+    | "system"
+    | "team"
+    | "member"
+    | "invitation";
 }
 
 class GlobalActivityTracker {
   private activities: Activity[] = [];
   private listeners: ((activity: Activity) => void)[] = [];
 
-  trackActivity(activity: Omit<Activity, 'id' | 'timestamp'>): void {
+  trackActivity(activity: Omit<Activity, "id" | "timestamp">): void {
     const newActivity: Activity = {
       ...activity,
       id: Date.now(),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     this.activities.unshift(newActivity);
@@ -42,11 +50,11 @@ class GlobalActivityTracker {
   }
 
   private notifyListeners(activity: Activity): void {
-    this.listeners.forEach(callback => {
+    this.listeners.forEach((callback) => {
       try {
         callback(activity);
       } catch (e) {
-        console.error('Error in activity listener:', e);
+        console.error("Error in activity listener:", e);
       }
     });
   }

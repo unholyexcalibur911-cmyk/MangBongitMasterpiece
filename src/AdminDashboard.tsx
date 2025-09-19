@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./AdminDashboard.module.css";
 import { globalActivityTracker } from "./globalActivityTracker";
-import { getAllTeams } from './services/teamService';
+import { getAllTeams } from "./services/teamService";
 import type { Activity } from "./globalActivityTracker";
 import type { Team } from "./types/team";
 
@@ -102,7 +102,7 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           setCurrentUser(userData);
 
           // Activity service connection
-          console.log('Admin user loaded:', userData.email);
+          console.log("Admin user loaded:", userData.email);
         }
       } catch (e) {
         console.error("Failed to load current user:", e);
@@ -113,9 +113,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const token = localStorage.getItem("authToken");
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
+        const payload = JSON.parse(atob(token.split(".")[1]));
         console.log("Admin Dashboard - User role:", payload.role);
-        if (payload.role !== 'admin') {
+        if (payload.role !== "admin") {
           console.warn("Non-admin user attempting to access admin dashboard");
         }
       } catch (e) {
@@ -132,7 +132,7 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   useEffect(() => {
     // Set up activity listeners
     globalActivityTracker.onNewActivity((activity: Activity) => {
-      setActivityLog(prev => [activity, ...prev.slice(0, 99)]); // Keep last 100 activities
+      setActivityLog((prev) => [activity, ...prev.slice(0, 99)]); // Keep last 100 activities
     });
 
     // Load recent activities
@@ -185,42 +185,51 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       await loadStats();
       setSelectedUsers([]);
       setBulkAction("");
-      addActivityLog(`Bulk ${bulkAction} performed on ${selectedUsers.length} users`, "admin");
+      addActivityLog(
+        `Bulk ${bulkAction} performed on ${selectedUsers.length} users`,
+        "admin",
+      );
     } catch (e) {
       setError(`Failed to perform bulk ${bulkAction}`);
     }
   };
 
-  const addActivityLog = (action: string, user: string, target: string = "") => {
+  const addActivityLog = (
+    action: string,
+    user: string,
+    target: string = "",
+  ) => {
     const newLog: Activity = {
       id: Date.now(),
       action,
       user,
       target,
       timestamp: new Date().toISOString(),
-      type: 'admin'
+      type: "admin",
     };
-    setActivityLog(prev => [newLog, ...prev.slice(0, 49)]); // Keep last 50 entries
+    setActivityLog((prev) => [newLog, ...prev.slice(0, 49)]); // Keep last 50 entries
   };
 
   const exportUsers = () => {
     const csvContent = [
       ["Email", "Name", "Role", "Status", "Last Login", "Created"],
-      ...users.map(user => [
+      ...users.map((user) => [
         user.email,
         user.name || "",
         user.role,
         user.isActive ? "Active" : "Inactive",
         user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : "",
-        user.createdAt ? new Date(user.createdAt).toLocaleDateString() : ""
-      ])
-    ].map(row => row.join(",")).join("\n");
+        user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "",
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `users-export-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -230,15 +239,18 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
     try {
       const isNewUser = !editingUser.id;
-      const res = await authFetch(`/api/admin/users/${editingUser.id || 'new'}`, {
-        method: isNewUser ? "POST" : "PATCH",
-        body: JSON.stringify({
-          email: editingUser.email,
-          name: editingUser.name,
-          role: editingUser.role,
-          isActive: editingUser.isActive,
-        }),
-      });
+      const res = await authFetch(
+        `/api/admin/users/${editingUser.id || "new"}`,
+        {
+          method: isNewUser ? "POST" : "PATCH",
+          body: JSON.stringify({
+            email: editingUser.email,
+            name: editingUser.name,
+            role: editingUser.role,
+            isActive: editingUser.isActive,
+          }),
+        },
+      );
 
       if (res.ok) {
         await loadUsers();
@@ -248,11 +260,13 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
         // Track activity
         globalActivityTracker.trackActivity({
-          action: isNewUser ? `Created new user: ${editingUser.email}` : `Updated user: ${editingUser.email}`,
+          action: isNewUser
+            ? `Created new user: ${editingUser.email}`
+            : `Updated user: ${editingUser.email}`,
           user: currentUser?.email || "admin",
           target: editingUser.email,
-          details: `Role: ${editingUser.role}, Status: ${editingUser.isActive ? 'Active' : 'Inactive'}`,
-          type: 'admin'
+          details: `Role: ${editingUser.role}, Status: ${editingUser.isActive ? "Active" : "Inactive"}`,
+          type: "admin",
         });
 
         const action = isNewUser ? "User created" : "User updated";
@@ -266,8 +280,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    const user = users.find(u => u.id === userId);
-    if (!confirm(`Are you sure you want to delete user: ${user?.email}?`)) return;
+    const user = users.find((u) => u.id === userId);
+    if (!confirm(`Are you sure you want to delete user: ${user?.email}?`))
+      return;
 
     try {
       const res = await authFetch(`/api/admin/users/${userId}`, {
@@ -280,11 +295,11 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
         // Track activity
         globalActivityTracker.trackActivity({
-          action: `Deleted user: ${user?.email || 'Unknown'}`,
+          action: `Deleted user: ${user?.email || "Unknown"}`,
           user: currentUser?.email || "admin",
           target: user?.email,
           details: `User permanently removed from system`,
-          type: 'admin'
+          type: "admin",
         });
 
         addActivityLog("User deleted", "admin", user?.email || "");
@@ -411,7 +426,10 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <button onClick={handleBulkAction} className={styles.bulkButton}>
             Execute
           </button>
-          <button onClick={() => setSelectedUsers([])} className={styles.cancelButton}>
+          <button
+            onClick={() => setSelectedUsers([])}
+            className={styles.cancelButton}
+          >
             Cancel
           </button>
         </div>
@@ -429,7 +447,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   if (e.target.checked) {
                     setSelectedUsers([...selectedUsers, user.id]);
                   } else {
-                    setSelectedUsers(selectedUsers.filter(id => id !== user.id));
+                    setSelectedUsers(
+                      selectedUsers.filter((id) => id !== user.id),
+                    );
                   }
                 }}
               />
@@ -442,8 +462,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   {user.role}
                 </span>
                 <span
-                  className={`${styles.statusBadge} ${user.isActive ? styles.active : styles.inactive
-                    }`}
+                  className={`${styles.statusBadge} ${
+                    user.isActive ? styles.active : styles.inactive
+                  }`}
                 >
                   {user.isActive ? "Active" : "Inactive"}
                 </span>
@@ -489,68 +510,89 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           {activityLog.length === 0 ? (
             <div className={styles.noActivity}>
               <p>No recent activity to display</p>
-              <small>Activities will appear here in real-time as users interact with the system</small>
+              <small>
+                Activities will appear here in real-time as users interact with
+                the system
+              </small>
             </div>
           ) : (
-            activityLog
-              .slice(0, 20)
-              .map((log) => {
-                const getTypeIcon = (type: string) => {
-                  switch (type) {
-                    case 'task': return '📝';
-                    case 'connection': return '🔗';
-                    case 'profile': return '👤';
-                    case 'admin': return '👑';
-                    case 'system': return '⚙️';
-                    case 'team': return '👥';
-                    case 'member': return '👤';
-                    case 'invitation': return '📧';
-                    default: return '📌';
-                  }
-                };
+            activityLog.slice(0, 20).map((log) => {
+              const getTypeIcon = (type: string) => {
+                switch (type) {
+                  case "task":
+                    return "📝";
+                  case "connection":
+                    return "🔗";
+                  case "profile":
+                    return "👤";
+                  case "admin":
+                    return "👑";
+                  case "system":
+                    return "⚙️";
+                  case "team":
+                    return "👥";
+                  case "member":
+                    return "👤";
+                  case "invitation":
+                    return "📧";
+                  default:
+                    return "📌";
+                }
+              };
 
-                const getTypeColor = (type: string) => {
-                  switch (type) {
-                    case 'task': return '#3b82f6';
-                    case 'connection': return '#10b981';
-                    case 'profile': return '#8b5cf6';
-                    case 'admin': return '#f59e0b';
-                    case 'system': return '#6b7280';
-                    case 'team': return '#FF6B6B';
-                    case 'member': return '#4ECDC4';
-                    case 'invitation': return '#FFE66D';
-                    default: return '#374151';
-                  }
-                };
+              const getTypeColor = (type: string) => {
+                switch (type) {
+                  case "task":
+                    return "#3b82f6";
+                  case "connection":
+                    return "#10b981";
+                  case "profile":
+                    return "#8b5cf6";
+                  case "admin":
+                    return "#f59e0b";
+                  case "system":
+                    return "#6b7280";
+                  case "team":
+                    return "#FF6B6B";
+                  case "member":
+                    return "#4ECDC4";
+                  case "invitation":
+                    return "#FFE66D";
+                  default:
+                    return "#374151";
+                }
+              };
 
-                return (
-                  <div key={log.id} className={styles.activityItem}>
-                    <div className={styles.activityHeader}>
-                      <span
-                        className={styles.activityType}
-                        style={{ color: getTypeColor(log.type) }}
-                      >
-                        {getTypeIcon(log.type)} {log.type.toUpperCase()}
+              return (
+                <div key={log.id} className={styles.activityItem}>
+                  <div className={styles.activityHeader}>
+                    <span
+                      className={styles.activityType}
+                      style={{ color: getTypeColor(log.type) }}
+                    >
+                      {getTypeIcon(log.type)} {log.type.toUpperCase()}
+                    </span>
+                    <span className={styles.activityTime}>
+                      {new Date(log.timestamp).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className={styles.activityContent}>
+                    <span className={styles.activityAction}>{log.action}</span>
+                    <span className={styles.activityUser}>by {log.user}</span>
+                    {log.target && log.target !== log.user && (
+                      <span className={styles.activityTarget}>
+                        → {log.target}
                       </span>
-                      <span className={styles.activityTime}>
-                        {new Date(log.timestamp).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className={styles.activityContent}>
-                      <span className={styles.activityAction}>{log.action}</span>
-                      <span className={styles.activityUser}>by {log.user}</span>
-                      {log.target && log.target !== log.user && (
-                        <span className={styles.activityTarget}>→ {log.target}</span>
-                      )}
-                    </div>
-                    {log.details && (
-                      <div className={styles.activityDetails}>
-                        <small>{log.details}</small>
-                      </div>
                     )}
                   </div>
-                );
-              })
+                  {log.details && (
+                    <div className={styles.activityDetails}>
+                      <small>{log.details}</small>
+                    </div>
+                  )}
+                </div>
+              );
+            })
           )}
         </div>
       </div>
@@ -566,10 +608,16 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <button className={styles.adminButton} onClick={handleAddUser}>
                 👥 Add User
               </button>
-              <button className={styles.adminButton} onClick={() => setShowAnalytics(true)}>
+              <button
+                className={styles.adminButton}
+                onClick={() => setShowAnalytics(true)}
+              >
                 📊 View Analytics
               </button>
-              <button className={styles.adminButton} onClick={() => setShowSettings(true)}>
+              <button
+                className={styles.adminButton}
+                onClick={() => setShowSettings(true)}
+              >
                 ⚙️ System Settings
               </button>
             </div>
@@ -578,15 +626,21 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             <h3>Quick Stats</h3>
             <div className={styles.adminStats}>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>{stats?.totalUsers || 0}</span>
+                <span className={styles.statNumber}>
+                  {stats?.totalUsers || 0}
+                </span>
                 <span className={styles.statLabel}>Total Users</span>
               </div>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>{stats?.activeUsers || 0}</span>
+                <span className={styles.statNumber}>
+                  {stats?.activeUsers || 0}
+                </span>
                 <span className={styles.statLabel}>Active Today</span>
               </div>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>{stats?.adminUsers || 0}</span>
+                <span className={styles.statNumber}>
+                  {stats?.adminUsers || 0}
+                </span>
                 <span className={styles.statLabel}>Admins</span>
               </div>
             </div>
@@ -599,8 +653,11 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h3>{editingUser.id ? 'Edit User' : 'Add New User'}</h3>
-              <button onClick={() => setShowUserModal(false)} className={styles.closeButton}>
+              <h3>{editingUser.id ? "Edit User" : "Add New User"}</h3>
+              <button
+                onClick={() => setShowUserModal(false)}
+                className={styles.closeButton}
+              >
                 ✕
               </button>
             </div>
@@ -610,7 +667,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <input
                   type="email"
                   value={editingUser.email}
-                  onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
+                  onChange={(e) =>
+                    setEditingUser({ ...editingUser, email: e.target.value })
+                  }
                   disabled={!!editingUser.id}
                   className={styles.formInput}
                 />
@@ -620,7 +679,9 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <input
                   type="text"
                   value={editingUser.name}
-                  onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                  onChange={(e) =>
+                    setEditingUser({ ...editingUser, name: e.target.value })
+                  }
                   className={styles.formInput}
                 />
               </div>
@@ -628,7 +689,12 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <label>Role:</label>
                 <select
                   value={editingUser.role}
-                  onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as "user" | "admin" })}
+                  onChange={(e) =>
+                    setEditingUser({
+                      ...editingUser,
+                      role: e.target.value as "user" | "admin",
+                    })
+                  }
                   className={styles.formSelect}
                 >
                   <option value="user">User</option>
@@ -640,14 +706,22 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   <input
                     type="checkbox"
                     checked={editingUser.isActive}
-                    onChange={(e) => setEditingUser({ ...editingUser, isActive: e.target.checked })}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        isActive: e.target.checked,
+                      })
+                    }
                   />
                   Active
                 </label>
               </div>
             </div>
             <div className={styles.modalFooter}>
-              <button onClick={() => setShowUserModal(false)} className={styles.cancelButton}>
+              <button
+                onClick={() => setShowUserModal(false)}
+                className={styles.cancelButton}
+              >
                 Cancel
               </button>
               <button onClick={handleSaveUser} className={styles.saveButton}>
@@ -664,7 +738,10 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h3>📈 System Analytics</h3>
-              <button onClick={() => setShowAnalytics(false)} className={styles.closeButton}>
+              <button
+                onClick={() => setShowAnalytics(false)}
+                className={styles.closeButton}
+              >
                 ✕
               </button>
             </div>
@@ -700,7 +777,10 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h3>⚙️ System Settings</h3>
-              <button onClick={() => setShowSettings(false)} className={styles.closeButton}>
+              <button
+                onClick={() => setShowSettings(false)}
+                className={styles.closeButton}
+              >
                 ✕
               </button>
             </div>
@@ -725,7 +805,11 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <h4>Security</h4>
                 <div className={styles.settingItem}>
                   <label>Session timeout (minutes):</label>
-                  <input type="number" defaultValue="60" className={styles.formInput} />
+                  <input
+                    type="number"
+                    defaultValue="60"
+                    className={styles.formInput}
+                  />
                 </div>
                 <div className={styles.settingItem}>
                   <label>Enable two-factor authentication:</label>
@@ -734,10 +818,16 @@ const AdminDashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               </div>
             </div>
             <div className={styles.modalFooter}>
-              <button onClick={() => setShowSettings(false)} className={styles.cancelButton}>
+              <button
+                onClick={() => setShowSettings(false)}
+                className={styles.cancelButton}
+              >
                 Cancel
               </button>
-              <button onClick={() => setShowSettings(false)} className={styles.saveButton}>
+              <button
+                onClick={() => setShowSettings(false)}
+                className={styles.saveButton}
+              >
                 Save Settings
               </button>
             </div>

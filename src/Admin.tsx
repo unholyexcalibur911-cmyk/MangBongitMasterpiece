@@ -2,7 +2,9 @@ import React from "react";
 
 const AdminPage: React.FC = () => {
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "sans-serif" }}>
+    <div
+      style={{ display: "flex", minHeight: "100vh", fontFamily: "sans-serif" }}
+    >
       {/* Sidebar */}
       <aside
         style={{
@@ -14,15 +16,27 @@ const AdminPage: React.FC = () => {
           padding: "20px",
         }}
       >
-        <h2 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "40px" }}>
+        <h2
+          style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "40px" }}
+        >
           Admin Panel
         </h2>
         <nav style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <a href="#" style={linkStyle}>Dashboard</a>
-          <a href="#" style={linkStyle}>Users</a>
-          <a href="#" style={linkStyle}>Projects</a>
-          <a href="#" style={linkStyle}>Settings</a>
-          <a href="#" style={{ ...linkStyle, color: "#f87171" }}>Logout</a>
+          <a href="#" style={linkStyle}>
+            Dashboard
+          </a>
+          <a href="#" style={linkStyle}>
+            Users
+          </a>
+          <a href="#" style={linkStyle}>
+            Projects
+          </a>
+          <a href="#" style={linkStyle}>
+            Settings
+          </a>
+          <a href="#" style={{ ...linkStyle, color: "#f87171" }}>
+            Logout
+          </a>
         </nav>
       </aside>
 
@@ -69,7 +83,13 @@ const AdminPage: React.FC = () => {
         </header>
 
         {/* Dashboard content */}
-        <section style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "20px",
+          }}
+        >
           <div style={cardStyle}>
             <h3 style={cardTitle}>Users</h3>
             <p style={cardNumber}>120</p>

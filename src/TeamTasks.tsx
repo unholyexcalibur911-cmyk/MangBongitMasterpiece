@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TeamTasks.module.css";
 import type { Team, TeamTask } from "./types/team";
-import { getTeamTasks, createTask as apiCreateTask, updateTask as apiUpdateTask, deleteTask as apiDeleteTask } from "./services/taskService";
+import {
+  getTeamTasks,
+  createTask as apiCreateTask,
+  updateTask as apiUpdateTask,
+  deleteTask as apiDeleteTask,
+} from "./services/taskService";
 
 interface TeamTasksProps {
   team: Team;
@@ -21,7 +26,9 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
 
   useEffect(() => {
     // Join the team board room when component mounts
-    window.dispatchEvent(new CustomEvent("joinTeamBoard", { detail: { teamId: team.id } }));
+    window.dispatchEvent(
+      new CustomEvent("joinTeamBoard", { detail: { teamId: team.id } }),
+    );
 
     // Listen for board updates (from server)
     const boardHandler = () => {
@@ -46,9 +53,13 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
 
   const loadTasks = async () => {
     const apiTasks = await getTeamTasks(team.id);
-    setTasks(apiTasks.map((task: TeamTask) => ({ ...task, id: task.id || (task as any)._id })));
+    setTasks(
+      apiTasks.map((task: TeamTask) => ({
+        ...task,
+        id: task.id || (task as any)._id,
+      })),
+    );
   };
-
 
   const createTask = async () => {
     if (!newTaskTitle.trim()) return;
@@ -57,11 +68,11 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
       title: newTaskTitle.trim(),
       description: newTaskDescription.trim(),
       assignedTo: currentUser.id,
-      status: 'todo',
-      priority: 'medium',
+      status: "todo",
+      priority: "medium",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      createdBy: currentUser.id
+      createdBy: currentUser.id,
     };
 
     await apiCreateTask(team.id, newTask);
@@ -71,7 +82,7 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
     setShowCreateForm(false);
   };
 
-  const updateTaskStatus = (taskId: string, status: TeamTask['status']) => {
+  const updateTaskStatus = (taskId: string, status: TeamTask["status"]) => {
     apiUpdateTask(taskId, { status }).then(() => {
       loadTasks();
     });
@@ -83,19 +94,22 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
     });
   };
 
-  const getTasksByStatus = (status: TeamTask['status']) => {
-    return tasks.filter(task => task.status === status);
+  const getTasksByStatus = (status: TeamTask["status"]) => {
+    return tasks.filter((task) => task.status === status);
   };
 
-  const getPriorityColor = (priority: TeamTask['priority']) => {
+  const getPriorityColor = (priority: TeamTask["priority"]) => {
     switch (priority) {
-      case 'high': return '#ff6b6b';
-      case 'medium': return '#ffa726';
-      case 'low': return '#66bb6a';
-      default: return '#9ca3af';
+      case "high":
+        return "#ff6b6b";
+      case "medium":
+        return "#ffa726";
+      case "low":
+        return "#66bb6a";
+      default:
+        return "#9ca3af";
     }
   };
-
 
   return (
     <div className={styles.teamTasksContainer}>
@@ -110,7 +124,7 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
       </div>
 
       <div className={styles.actions}>
-        <button 
+        <button
           onClick={() => setShowCreateForm(!showCreateForm)}
           className={styles.createTaskButton}
         >
@@ -142,7 +156,10 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
             />
           </div>
           <div className={styles.formActions}>
-            <button onClick={() => setShowCreateForm(false)} className={styles.cancelButton}>
+            <button
+              onClick={() => setShowCreateForm(false)}
+              className={styles.cancelButton}
+            >
               Cancel
             </button>
             <button onClick={createTask} className={styles.createButton}>
@@ -154,13 +171,15 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
 
       <div className={styles.kanbanBoard}>
         <div className={styles.column}>
-          <h3 className={styles.columnTitle}>To Do ({getTasksByStatus('todo').length})</h3>
+          <h3 className={styles.columnTitle}>
+            To Do ({getTasksByStatus("todo").length})
+          </h3>
           <div className={styles.taskList}>
-            {getTasksByStatus('todo').map(task => (
+            {getTasksByStatus("todo").map((task) => (
               <div key={task.id} className={styles.taskCard}>
                 <div className={styles.taskHeader}>
                   <h4>{task.title}</h4>
-                  <div 
+                  <div
                     className={styles.priorityBadge}
                     style={{ backgroundColor: getPriorityColor(task.priority) }}
                   >
@@ -171,13 +190,13 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
                   <p className={styles.taskDescription}>{task.description}</p>
                 )}
                 <div className={styles.taskActions}>
-                  <button 
-                    onClick={() => updateTaskStatus(task.id, 'in-progress')}
+                  <button
+                    onClick={() => updateTaskStatus(task.id, "in-progress")}
                     className={styles.actionButton}
                   >
                     Start
                   </button>
-                  <button 
+                  <button
                     onClick={() => deleteTask(task.id)}
                     className={styles.deleteButton}
                   >
@@ -190,13 +209,15 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
         </div>
 
         <div className={styles.column}>
-          <h3 className={styles.columnTitle}>In Progress ({getTasksByStatus('in-progress').length})</h3>
+          <h3 className={styles.columnTitle}>
+            In Progress ({getTasksByStatus("in-progress").length})
+          </h3>
           <div className={styles.taskList}>
-            {getTasksByStatus('in-progress').map(task => (
+            {getTasksByStatus("in-progress").map((task) => (
               <div key={task.id} className={styles.taskCard}>
                 <div className={styles.taskHeader}>
                   <h4>{task.title}</h4>
-                  <div 
+                  <div
                     className={styles.priorityBadge}
                     style={{ backgroundColor: getPriorityColor(task.priority) }}
                   >
@@ -207,14 +228,14 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
                   <p className={styles.taskDescription}>{task.description}</p>
                 )}
                 <div className={styles.taskActions}>
-                  <button 
-                    onClick={() => updateTaskStatus(task.id, 'completed')}
+                  <button
+                    onClick={() => updateTaskStatus(task.id, "completed")}
                     className={styles.actionButton}
                   >
                     Complete
                   </button>
-                  <button 
-                    onClick={() => updateTaskStatus(task.id, 'todo')}
+                  <button
+                    onClick={() => updateTaskStatus(task.id, "todo")}
                     className={styles.actionButton}
                   >
                     Back to Todo
@@ -226,13 +247,15 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
         </div>
 
         <div className={styles.column}>
-          <h3 className={styles.columnTitle}>Completed ({getTasksByStatus('completed').length})</h3>
+          <h3 className={styles.columnTitle}>
+            Completed ({getTasksByStatus("completed").length})
+          </h3>
           <div className={styles.taskList}>
-            {getTasksByStatus('completed').map(task => (
+            {getTasksByStatus("completed").map((task) => (
               <div key={task.id} className={styles.taskCard}>
                 <div className={styles.taskHeader}>
                   <h4>{task.title}</h4>
-                  <div 
+                  <div
                     className={styles.priorityBadge}
                     style={{ backgroundColor: getPriorityColor(task.priority) }}
                   >
@@ -243,13 +266,13 @@ const TeamTasks: React.FC<TeamTasksProps> = ({ team, currentUser, onBack }) => {
                   <p className={styles.taskDescription}>{task.description}</p>
                 )}
                 <div className={styles.taskActions}>
-                  <button 
-                    onClick={() => updateTaskStatus(task.id, 'in-progress')}
+                  <button
+                    onClick={() => updateTaskStatus(task.id, "in-progress")}
                     className={styles.actionButton}
                   >
                     Reopen
                   </button>
-                  <button 
+                  <button
                     onClick={() => deleteTask(task.id)}
                     className={styles.deleteButton}
                   >

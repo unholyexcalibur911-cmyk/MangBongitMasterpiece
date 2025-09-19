@@ -141,11 +141,11 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           const errorData = JSON.parse(errorText);
           setError(
             errorData?.error ||
-              `Failed to update profile. Status: ${res.status}`
+              `Failed to update profile. Status: ${res.status}`,
           );
         } catch {
           setError(
-            `Failed to update profile. Server returned a non-JSON response: ${res.status} ${res.statusText}`
+            `Failed to update profile. Server returned a non-JSON response: ${res.status} ${res.statusText}`,
           );
         }
       }
@@ -188,7 +188,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   // Responds to a pending connection request (accepts or declines).
   async function respondToConnection(
     connectionId: string,
-    status: "accepted" | "declined"
+    status: "accepted" | "declined",
   ) {
     try {
       const res = await authFetch(`/api/users/connections/${connectionId}`, {
@@ -201,7 +201,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         // Track activity
         const connection = connections.find((c) => c.id === connectionId);
         const targetUser = allUsers.find(
-          (u) => u.id === connection?.connectedUserId
+          (u) => u.id === connection?.connectedUserId,
         );
         globalActivityTracker.trackActivity({
           action: `${
@@ -230,7 +230,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         // Track activity
         const connection = connections.find((c) => c.id === connectionId);
         const targetUser = allUsers.find(
-          (u) => u.id === connection?.connectedUserId
+          (u) => u.id === connection?.connectedUserId,
         );
         globalActivityTracker.trackActivity({
           action: `Removed connection with ${
@@ -258,7 +258,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         `File size must be less than 5MB. Your file is ${(
           file.size /
           (1024 * 1024)
-        ).toFixed(2)}MB`
+        ).toFixed(2)}MB`,
       );
       setSelectedFile(null); // Clear the invalid file
       setShowUploadModal(false); // Close the modal
@@ -280,7 +280,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
     if (!validImageTypes.includes(file.type.toLowerCase())) {
       setError(
-        "Please select a valid image file (JPEG, PNG, GIF, WebP, SVG, BMP, TIFF, ICO)"
+        "Please select a valid image file (JPEG, PNG, GIF, WebP, SVG, BMP, TIFF, ICO)",
       );
       return;
     }
@@ -384,7 +384,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         0,
         0,
         canvas.width,
-        canvas.height
+        canvas.height,
       );
 
       ctx.restore(); // Restore canvas state after drawing
@@ -443,7 +443,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const applyFilter = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
-    filter: string
+    filter: string,
   ) => {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
@@ -542,7 +542,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   // Handles the user changing the desired shape of the crop (square, circle, etc.).
   const handleAspectRatioChange = (
-    newAspectRatio: "square" | "circle" | "rectangle"
+    newAspectRatio: "square" | "circle" | "rectangle",
   ) => {
     setAspectRatio(newAspectRatio);
 
@@ -586,11 +586,11 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
       ...prev,
       x: Math.max(
         0,
-        Math.min(x - prev.width / 2, imageDimensions.width - prev.width)
+        Math.min(x - prev.width / 2, imageDimensions.width - prev.width),
       ),
       y: Math.max(
         0,
-        Math.min(y - prev.height / 2, imageDimensions.height - prev.height)
+        Math.min(y - prev.height / 2, imageDimensions.height - prev.height),
       ),
     }));
   };
@@ -614,11 +614,11 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         ...prev,
         x: Math.max(
           0,
-          Math.min(startCropX + deltaX, imageDimensions.width - prev.width)
+          Math.min(startCropX + deltaX, imageDimensions.width - prev.width),
         ),
         y: Math.max(
           0,
-          Math.min(startCropY + deltaY, imageDimensions.height - prev.height)
+          Math.min(startCropY + deltaY, imageDimensions.height - prev.height),
         ),
       }));
     };
@@ -635,11 +635,11 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   // Handles resizing the crop box by dragging its corners.
   const handleCropResize = (
     e: React.MouseEvent<HTMLDivElement>,
-    direction: "nw" | "se"
+    direction: "nw" | "se",
   ) => {
     e.stopPropagation();
     const container = e.currentTarget.closest(
-      ".cropImageContainer"
+      ".cropImageContainer",
     ) as HTMLElement;
     if (!container) return;
 
@@ -662,15 +662,15 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             0,
             Math.min(
               startCropData.x + deltaX,
-              startCropData.x + startCropData.width - 50
-            )
+              startCropData.x + startCropData.width - 50,
+            ),
           );
           newData.y = Math.max(
             0,
             Math.min(
               startCropData.y + deltaY,
-              startCropData.y + startCropData.height - 50
-            )
+              startCropData.y + startCropData.height - 50,
+            ),
           );
         } else {
           // Resize from bottom-right corner
@@ -678,15 +678,15 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
             50,
             Math.min(
               startCropData.width + deltaX,
-              imageDimensions.width - startCropData.x
-            )
+              imageDimensions.width - startCropData.x,
+            ),
           );
           newData.height = Math.max(
             50,
             Math.min(
               startCropData.height + deltaY,
-              imageDimensions.height - startCropData.y
-            )
+              imageDimensions.height - startCropData.y,
+            ),
           );
         }
 
@@ -708,10 +708,10 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     (u) =>
       u.id !== user?.id &&
       !connections.some(
-        (c) => c.connectedUserId === u.id || c.userId === u.id
+        (c) => c.connectedUserId === u.id || c.userId === u.id,
       ) &&
       (searchEmail === "" ||
-        u.email.toLowerCase().includes(searchEmail.toLowerCase()))
+        u.email.toLowerCase().includes(searchEmail.toLowerCase())),
   );
 
   return (
@@ -800,7 +800,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   value={user?.name || ""}
                   onChange={(e) =>
                     setUser((prev) =>
-                      prev ? { ...prev, name: e.target.value } : null
+                      prev ? { ...prev, name: e.target.value } : null,
                     )
                   }
                   onBlur={(e) => updateProfile({ name: e.target.value })}
@@ -923,7 +923,7 @@ const Profile: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
           <div className={styles.connectionsList}>
             {connections.map((conn) => {
               const connectedUser = allUsers.find(
-                (u) => u.id === conn.connectedUserId
+                (u) => u.id === conn.connectedUserId,
               );
               if (!connectedUser) return null;
 

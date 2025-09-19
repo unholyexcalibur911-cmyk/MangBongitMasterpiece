@@ -24,7 +24,7 @@
 .header {
   display: flex;
   flex-direction: column; /* stack back button and title */
-  align-items: center;    /* center horizontally */
+  align-items: center; /* center horizontally */
   justify-content: center;
   margin-bottom: 20px;
 }
@@ -34,7 +34,6 @@
   margin: 10px 0 0 0;
   text-align: center; /* center text itself */
 }
-
 
 .backButton {
   background: transparent;
@@ -314,7 +313,6 @@
   margin-bottom: 10px;
 }
 
-
 /* System Health */
 .systemHealth {
   margin-top: 25px;
@@ -530,7 +528,9 @@
   align-items: center;
 }
 
-.addButton, .exportButton, .analyticsButton {
+.addButton,
+.exportButton,
+.analyticsButton {
   background: rgba(34, 197, 94, 0.2);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #22c55e;
@@ -541,7 +541,9 @@
   font-weight: 500;
 }
 
-.addButton:hover, .exportButton:hover, .analyticsButton:hover {
+.addButton:hover,
+.exportButton:hover,
+.analyticsButton:hover {
   background: rgba(34, 197, 94, 0.3);
   transform: translateY(-1px);
 }
@@ -696,7 +698,8 @@
   font-weight: 500;
 }
 
-.formInput, .formSelect {
+.formInput,
+.formSelect {
   width: 100%;
   padding: 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -707,7 +710,8 @@
   backdrop-filter: blur(10px);
 }
 
-.formInput:focus, .formSelect:focus {
+.formInput:focus,
+.formSelect:focus {
   outline: none;
   border-color: #fbbf24;
   box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
@@ -955,43 +959,42 @@
     flex-direction: column;
     gap: 16px;
   }
-  
-  .searchSection, .actionSection {
+
+  .searchSection,
+  .actionSection {
     flex-direction: column;
     width: 100%;
   }
-  
-  .searchInput, .filterSelect {
+
+  .searchInput,
+  .filterSelect {
     width: 100%;
   }
-  
+
   .bulkOperations {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .modal {
     width: 95%;
     margin: 20px;
   }
-  
+
   .analyticsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .activityItem {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-  
+
   .activityTime {
     min-width: auto;
   }
 }
-
-
-
 
 .noResults {
   margin-top: 20px;
@@ -1155,7 +1158,9 @@
   align-items: center;
 }
 
-.addButton, .exportButton, .analyticsButton {
+.addButton,
+.exportButton,
+.analyticsButton {
   background: rgba(34, 197, 94, 0.2);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #22c55e;
@@ -1166,7 +1171,9 @@
   font-weight: 500;
 }
 
-.addButton:hover, .exportButton:hover, .analyticsButton:hover {
+.addButton:hover,
+.exportButton:hover,
+.analyticsButton:hover {
   background: rgba(34, 197, 94, 0.3);
   transform: translateY(-1px);
 }
@@ -1321,7 +1328,8 @@
   font-weight: 500;
 }
 
-.formInput, .formSelect {
+.formInput,
+.formSelect {
   width: 100%;
   padding: 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -1332,7 +1340,8 @@
   backdrop-filter: blur(10px);
 }
 
-.formInput:focus, .formSelect:focus {
+.formInput:focus,
+.formSelect:focus {
   outline: none;
   border-color: #fbbf24;
   box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
@@ -1580,36 +1589,38 @@
     flex-direction: column;
     gap: 16px;
   }
-  
-  .searchSection, .actionSection {
+
+  .searchSection,
+  .actionSection {
     flex-direction: column;
     width: 100%;
   }
-  
-  .searchInput, .filterSelect {
+
+  .searchInput,
+  .filterSelect {
     width: 100%;
   }
-  
+
   .bulkOperations {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .modal {
     width: 95%;
     margin: 20px;
   }
-  
+
   .analyticsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .activityItem {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-  
+
   .activityTime {
     min-width: auto;
   }

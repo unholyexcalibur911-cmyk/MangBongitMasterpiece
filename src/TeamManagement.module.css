@@ -45,8 +45,9 @@
   flex-wrap: wrap;
 }
 
-.createButton, .joinButton {
-  background: linear-gradient(45deg, #4CAF50, #45a049);
+.createButton,
+.joinButton {
+  background: linear-gradient(45deg, #4caf50, #45a049);
   border: none;
   color: white;
   padding: 12px 24px;
@@ -59,11 +60,12 @@
 }
 
 .joinButton {
-  background: linear-gradient(45deg, #2196F3, #1976D2);
+  background: linear-gradient(45deg, #2196f3, #1976d2);
   box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
-.createButton:hover, .joinButton:hover {
+.createButton:hover,
+.joinButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
@@ -114,13 +116,13 @@
 }
 
 .teamCard::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #4CAF50, #2196F3, #FF9800);
+  background: linear-gradient(90deg, #4caf50, #2196f3, #ff9800);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -183,17 +185,17 @@
 }
 
 .roleBadge.owner {
-  background: linear-gradient(45deg, #FFD700, #FFA500);
+  background: linear-gradient(45deg, #ffd700, #ffa500);
   color: #000;
 }
 
 .roleBadge.admin {
-  background: linear-gradient(45deg, #FF6B6B, #EE5A52);
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
   color: #fff;
 }
 
 .roleBadge.member {
-  background: linear-gradient(45deg, #4ECDC4, #44A08D);
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
   color: #fff;
 }
 
@@ -240,7 +242,10 @@
   justify-content: space-between;
 }
 
-.viewButton, .tasksButton, .leaveButton, .copyButton {
+.viewButton,
+.tasksButton,
+.leaveButton,
+.copyButton {
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
@@ -286,7 +291,7 @@
 
 .leaveButton {
   background: rgba(255, 107, 107, 0.2);
-  color: #FF6B6B;
+  color: #ff6b6b;
   border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
@@ -324,7 +329,7 @@
 }
 
 .primaryButton {
-  background: linear-gradient(45deg, #4CAF50, #45a049);
+  background: linear-gradient(45deg, #4caf50, #45a049);
   border: none;
   color: white;
   padding: 15px 30px;
@@ -473,7 +478,7 @@
 }
 
 .joinTeamButton {
-  background: linear-gradient(45deg, #2196F3, #1976D2);
+  background: linear-gradient(45deg, #2196f3, #1976d2);
   border: none;
   color: white;
   padding: 8px 16px;
@@ -501,7 +506,9 @@
   font-weight: 500;
 }
 
-.formInput, .formTextarea, .formSelect {
+.formInput,
+.formTextarea,
+.formSelect {
   width: 100%;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -512,13 +519,16 @@
   transition: all 0.3s ease;
 }
 
-.formInput:focus, .formTextarea:focus, .formSelect:focus {
+.formInput:focus,
+.formTextarea:focus,
+.formSelect:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
 }
 
-.formInput::placeholder, .formTextarea::placeholder {
+.formInput::placeholder,
+.formTextarea::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -592,7 +602,8 @@
 }
 
 /* Error and Success Messages */
-.error, .success {
+.error,
+.success {
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -602,13 +613,13 @@
 .error {
   background: rgba(255, 107, 107, 0.2);
   border: 1px solid rgba(255, 107, 107, 0.3);
-  color: #FF6B6B;
+  color: #ff6b6b;
 }
 
 .success {
   background: rgba(76, 175, 80, 0.2);
   border: 1px solid rgba(76, 175, 80, 0.3);
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 /* Responsive Design */
@@ -616,56 +627,60 @@
   .teamContainer {
     padding: 15px;
   }
-  
+
   .teamsGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .actions {
     flex-direction: column;
   }
-  
-  .createButton, .joinButton {
+
+  .createButton,
+  .joinButton {
     width: 100%;
     text-align: center;
   }
-  
+
   .modal {
     width: 95%;
     margin: 10px;
   }
-  
+
   .teamActions {
     flex-direction: column;
   }
-  
-  .viewButton, .tasksButton, .copyButton, .leaveButton {
+
+  .viewButton,
+  .tasksButton,
+  .copyButton,
+  .leaveButton {
     width: 100%;
     text-align: center;
   }
-  
+
   .teamHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .teamBadges {
     flex-direction: row;
     align-items: center;
     gap: 8px;
   }
-  
+
   .joinMethodSelector {
     flex-direction: column;
   }
-  
+
   .availableTeamItem {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .joinTeamButton {
     width: 100%;
   }
@@ -675,23 +690,24 @@
   .header h1 {
     font-size: 2rem;
   }
-  
+
   .teamCard {
     padding: 20px;
   }
-  
+
   .modalBody {
     padding: 20px;
   }
-  
+
   .modalFooter {
     padding: 20px;
   }
 }
 
 /* Team Collaboration Styles */
-.collaborationButton, .managementButton {
-  background: linear-gradient(45deg, #9C27B0, #673AB7);
+.collaborationButton,
+.managementButton {
+  background: linear-gradient(45deg, #9c27b0, #673ab7);
   border: none;
   color: white;
   padding: 12px 24px;
@@ -704,11 +720,12 @@
 }
 
 .managementButton {
-  background: linear-gradient(45deg, #FF5722, #E64A19);
+  background: linear-gradient(45deg, #ff5722, #e64a19);
   box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
 }
 
-.collaborationButton:hover, .managementButton:hover {
+.collaborationButton:hover,
+.managementButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
@@ -785,7 +802,7 @@
 .removeButton {
   background: rgba(255, 107, 107, 0.2);
   border: 1px solid rgba(255, 107, 107, 0.3);
-  color: #FF6B6B;
+  color: #ff6b6b;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
@@ -979,7 +996,7 @@
 }
 
 .addButton {
-  background: linear-gradient(45deg, #4CAF50, #45a049);
+  background: linear-gradient(45deg, #4caf50, #45a049);
   border: none;
   color: white;
   padding: 8px 16px;
@@ -1002,32 +1019,33 @@
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
-  .collaborationButton, .managementButton {
+
+  .collaborationButton,
+  .managementButton {
     width: 100%;
     text-align: center;
   }
-  
+
   .taskItem {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .assignActions {
     width: 100%;
   }
-  
+
   .assignSelect {
     width: 100%;
   }
-  
+
   .userItem {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .addButton {
     width: 100%;
   }

@@ -2,7 +2,7 @@ export interface TeamMember {
   userId: string;
   email: string;
   name: string;
-  role: 'owner' | 'admin' | 'member';
+  role: "owner" | "admin" | "member";
   joinedAt: string;
   isActive: boolean;
 }
@@ -12,7 +12,7 @@ export interface TeamSettings {
   allowTaskCreation: boolean;
   allowTaskAssignment: boolean;
   maxMembers: number;
-  visibility: 'public' | 'private';
+  visibility: "public" | "private";
 }
 
 export interface Team {
@@ -43,8 +43,8 @@ export interface TeamTask {
   title: string;
   description?: string;
   assignedTo?: string;
-  status: 'todo' | 'in-progress' | 'completed';
-  priority: 'low' | 'medium' | 'high';
+  status: "todo" | "in-progress" | "completed";
+  priority: "low" | "medium" | "high";
   dueDate?: string;
   createdAt: string;
   updatedAt: string;

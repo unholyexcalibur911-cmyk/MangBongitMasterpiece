@@ -19,7 +19,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   // Registration page toggle
   const [showRegisterPage, setShowRegisterPage] = useState(false);
   const [registerUserType, setRegisterUserType] = useState<"user" | "admin">(
-    "user"
+    "user",
   );
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
@@ -99,7 +99,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
           reset_link: resetLink,
           message: "Here is your password reset link.",
         },
-        emailJsPublicKey
+        emailJsPublicKey,
       );
       setInfo(`A password reset link has been sent to ${resetEmail}.`);
       setShowForgotPassword(false);
@@ -131,7 +131,11 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: registerUsername, email: registerEmail, password: registerPassword }),
+        body: JSON.stringify({
+          name: registerUsername,
+          email: registerEmail,
+          password: registerPassword,
+        }),
       });
       const data = await res.json();
 
@@ -154,7 +158,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
             to_name: registerUsername,
             message: "Thank you for registering with AyaSync!",
           },
-          emailJsPublicKey
+          emailJsPublicKey,
         );
       } catch (emailErr) {
         // Non-critical, so we just warn in the console
@@ -171,7 +175,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
             user_name: registerUsername,
             user_email: registerEmail,
           },
-          emailJsPublicKey
+          emailJsPublicKey,
         );
       } catch (adminEmailErr) {
         console.warn("Failed to send admin notification for new registration.");
@@ -185,7 +189,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
           await submitLogin(registerEmail, registerPassword);
         } catch (err: any) {
           setError(
-            err?.message || "Auto-login failed. Please log in manually."
+            err?.message || "Auto-login failed. Please log in manually.",
           );
         }
       }, 500);
@@ -202,7 +206,10 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginEmail ?? email, password: loginPassword ?? password }),
+        body: JSON.stringify({
+          email: loginEmail ?? email,
+          password: loginPassword ?? password,
+        }),
       });
       const data = await res.json();
 
@@ -243,7 +250,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       if (!loggedInUserEmail) {
         // Silently fail or handle the case where email is not available.
         console.warn(
-          "Could not retrieve user email after login for notification."
+          "Could not retrieve user email after login for notification.",
         );
         return;
       }
@@ -257,7 +264,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
           name: userProfile.name || loggedInUserEmail, // Use the fetched name
           message: "Login attempt on AyaSync PMS",
         },
-        emailJsPublicKey
+        emailJsPublicKey,
       );
       setInfo("Login notification sent!");
 
@@ -271,7 +278,7 @@ const Login: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
             user_email: loggedInUserEmail,
             user_name: userProfile.name || loggedInUserEmail, // Add the user's name
           },
-          emailJsPublicKey
+          emailJsPublicKey,
         );
       } catch (adminEmailErr) {
         console.warn("Failed to send admin notification for login.");

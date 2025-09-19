@@ -14,7 +14,8 @@ const initialBoards = [
           {
             id: 1,
             title: "Project Requirements Analysis",
-            description: "Gather and document all project requirements from stakeholders",
+            description:
+              "Gather and document all project requirements from stakeholders",
             status: "progress",
             statusColor: "#1cc6a6",
           },
@@ -101,15 +102,24 @@ function Dashboard() {
         <h1 className={styles.title}>MIH Project Management</h1>
         <div className={styles.headerControls}>
           <button className={styles.addBoardBtn}>+ Add Board</button>
-          <span className={styles.userInfo}><span className={styles.userIcon}>👤</span> pogiako123</span>
+          <span className={styles.userInfo}>
+            <span className={styles.userIcon}>👤</span> pogiako123
+          </span>
           <button className={styles.signOutBtn}>Sign Out</button>
           <button className={styles.settingsBtn}>⚙️</button>
         </div>
       </header>
       <div className={styles.boardsWrapper}>
         {boards.map((board) => (
-          <div key={board.id} className={styles.boardColumn} style={{ borderColor: board.color }}>
-            <div className={styles.boardHeader} style={{ background: board.color }}>
+          <div
+            key={board.id}
+            className={styles.boardColumn}
+            style={{ borderColor: board.color }}
+          >
+            <div
+              className={styles.boardHeader}
+              style={{ background: board.color }}
+            >
               <span>{board.title}</span>
               <div>
                 <button className={styles.addBtn}>+</button>
@@ -118,13 +128,18 @@ function Dashboard() {
             </div>
             {board.sections.map((section) => (
               <div key={section.id} className={styles.section}>
-                {section.title && <div className={styles.sectionTitle}>{section.title}</div>}
+                {section.title && (
+                  <div className={styles.sectionTitle}>{section.title}</div>
+                )}
                 <div className={styles.cardsWrapper}>
                   {section.cards.map((card) => (
                     <div key={card.id} className={styles.card}>
                       <div className={styles.cardTitle}>{card.title}</div>
                       <div className={styles.cardDesc}>{card.description}</div>
-                      <div className={styles.statusBar} style={{ background: card.statusColor }}></div>
+                      <div
+                        className={styles.statusBar}
+                        style={{ background: card.statusColor }}
+                      ></div>
                     </div>
                   ))}
                   <button className={styles.addCardBtn}>+ Add a card</button>

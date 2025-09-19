@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 // Reuse client across function invocations (important for Vercel)
 let cachedClient: MongoClient | null = null;
@@ -20,9 +21,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { email, password } = req.body as { email?: string; password?: string };
+    const { email, password } = req.body as {
+      email?: string;
+      password?: string;
+    };
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     const client = await connectToDatabase();
@@ -40,9 +46,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Generate JWT token
+    const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
+    const token = jwt.sign(
+      { sub: user._id, email: user.email, name: user.name, role: user.role },
+      JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
     return res.status(200).json({
       message: "Login success",
-      user: { id: user._id, email: user.email, name: user.name }
+      token, // <-- Return token for frontend
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (error: any) {
     console.error("Login error:", error);

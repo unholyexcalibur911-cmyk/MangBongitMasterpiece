@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 // Reuse client across invocations
 let cachedClient: MongoClient | null = null;
@@ -27,7 +28,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     if (!email || !password || !name) {
-      return res.status(400).json({ message: "Name, email, and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Name, email, and password are required" });
     }
 
     const client = await connectToDatabase();
@@ -47,13 +50,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const result = await users.insertOne({
       name,
       email,
-      passwordHash: hashedPassword, // <-- use passwordHash
-      createdAt: new Date()
+      passwordHash: hashedPassword,
+      role: "user",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
+
+    // Generate JWT token for auto-login
+    const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-change-me";
+    const token = jwt.sign(
+      { sub: result.insertedId, email, name, role: "user" },
+      JWT_SECRET,
+      { expiresIn: "7d" },
+    );
 
     return res.status(201).json({
       message: "User registered successfully",
-      user: { id: result.insertedId, email, name }
+      token,
+      user: { id: result.insertedId, email, name, role: "user" },
     });
   } catch (error: any) {
     console.error("Register error:", error);

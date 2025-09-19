@@ -47,7 +47,9 @@ function Root() {
     });
 
     socket.on("activity:new", (activity: any) => {
-      window.dispatchEvent(new CustomEvent("activityNew", { detail: activity }));
+      window.dispatchEvent(
+        new CustomEvent("activityNew", { detail: activity }),
+      );
     });
 
     (async () => {
@@ -86,9 +88,7 @@ function Root() {
         ) : showAdmin ? (
           <AdminDashboard onBack={() => setShowAdmin(false)} />
         ) : (
-          <App
-            onAdminClick={() => setShowAdmin(true)}
-          />
+          <App onAdminClick={() => setShowAdmin(true)} />
         )}
       </QueryClientProvider>
     </React.StrictMode>

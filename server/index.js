@@ -1,66 +1,68 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import http from "http";
+import { Server as SocketIOServer } from "socket.io";
 
 dotenv.config();
 
 const app = express();
 const httpServer = http.createServer(app);
-const io = new SocketIOServer(httpServer, { cors: { origin: '*' } });
+const io = new SocketIOServer(httpServer, { cors: { origin: "*" } });
 app.use(express.json());
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://stellahime821_db_user:EJVg3jfXFzmY7J1G@pms.02mwxnz.mongodb.net/ayasynch?retryWrites=true&w=majority';
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  "mongodb+srv://stellahime821_db_user:EJVg3jfXFzmY7J1G@pms.02mwxnz.mongodb.net/ayasynch?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3001;
 
 async function start() {
   try {
     await mongoose.connect(MONGO_URI);
 
-    const authRouter = (await import('./routes/auth.js')).default;
-    app.use('/api/auth', authRouter);
-    
+    const authRouter = (await import("./routes/auth.js")).default;
+    app.use("/api/auth", authRouter);
+
     // Enable users route for profile functionality
-    const usersRouter = (await import('./routes/users.js')).default;
-    app.use('/api/users', usersRouter);
-    
+    const usersRouter = (await import("./routes/users.js")).default;
+    app.use("/api/users", usersRouter);
+
     // Enable admin routes
-    const adminRouter = (await import('./routes/admin.js')).default;
-    app.use('/api/admin', adminRouter);
-    
+    const adminRouter = (await import("./routes/admin.js")).default;
+    app.use("/api/admin", adminRouter);
+
     // Enable teams routes
-    const teamsRouter = (await import('./routes/teams.js')).default;
-    app.use('/api/teams', teamsRouter);
+    const teamsRouter = (await import("./routes/teams.js")).default;
+    app.use("/api/teams", teamsRouter);
 
     // Enable tasks routes
-    const tasksRouter = (await import('./routes/tasks.js')).default;
-    app.use('/api/tasks', tasksRouter);
+    const tasksRouter = (await import("./routes/tasks.js")).default;
+    app.use("/api/tasks", tasksRouter);
 
-    app.set('io', io);
+    app.set("io", io);
 
-    app.get('/api/health', (_req, res) => {
+    app.get("/api/health", (_req, res) => {
       res.json({ ok: true, mongo: true });
     });
 
-    io.on('connection', (socket) => {
-      socket.on('register', (userId) => {
+    io.on("connection", (socket) => {
+      socket.on("register", (userId) => {
         socket.join(`user:${userId}`);
       });
 
       // Join team board room
-      socket.on('joinTeamBoard', (teamId) => {
+      socket.on("joinTeamBoard", (teamId) => {
         socket.join(`teamBoard:${teamId}`);
       });
 
       // Listen for team creation and broadcast to all clients
-      socket.on('team:created', (team) => {
-        io.emit('team:created', team); // Broadcast to all clients
+      socket.on("team:created", (team) => {
+        io.emit("team:created", team); // Broadcast to all clients
       });
 
       // (Optional) Listen for activity events
-      socket.on('activity:new', (activity) => {
-        io.emit('activity:new', activity);
+      socket.on("activity:new", (activity) => {
+        io.emit("activity:new", activity);
       });
     });
 
@@ -68,11 +70,9 @@ async function start() {
       console.log(`API server listening on http://localhost:${PORT}`);
     });
   } catch (err) {
-    console.error('Failed to start server', err);
+    console.error("Failed to start server", err);
     process.exit(1);
   }
 }
 
 start();
-
-

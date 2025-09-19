@@ -11,7 +11,10 @@ const fetchProfile = async () => {
   return res.json();
 };
 
-const updateProfile = async (updates: { name?: string; avatarUrl?: string }) => {
+const updateProfile = async (updates: {
+  name?: string;
+  avatarUrl?: string;
+}) => {
   const token = localStorage.getItem("authToken");
   const res = await fetch("/api/users/me", {
     method: "PATCH",
@@ -118,7 +121,6 @@ const HeaderMenu: React.FC<{
       window.removeEventListener("profileUpdated", handleProfileUpdate);
   }, [refetchProfile]);
 
-
   function saveProfile() {
     updateProfileMutation.mutate({ name: nameInput });
   }
@@ -145,7 +147,9 @@ const HeaderMenu: React.FC<{
       <div className={styles.centerSection}></div>
       <div className={styles.rightSection}>
         <div className={styles.userInfo}>
-          <span className={styles.username}>{me?.name || me?.email || "User"}</span>
+          <span className={styles.username}>
+            {me?.name || me?.email || "User"}
+          </span>
         </div>
         <button className={styles.signOutButton} onClick={logout}>
           Sign Out
@@ -181,7 +185,9 @@ const HeaderMenu: React.FC<{
               <span className={styles.profileEmail}>{me?.email}</span>
             </div>
             <div className={styles.dropdownArrow}>
-              <span className={`${styles.arrow} ${open ? styles.arrowUp : ""}`}>▼</span>
+              <span className={`${styles.arrow} ${open ? styles.arrowUp : ""}`}>
+                ▼
+              </span>
             </div>
           </button>
           {/* Settings Dropdown */}

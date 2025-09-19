@@ -74,7 +74,7 @@
   min-width: 340px;
   max-width: 340px;
   padding-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
 }
@@ -88,7 +88,8 @@
   border-radius: 16px 16px 0 0;
   color: #fff;
 }
-.addBtn, .deleteBtn {
+.addBtn,
+.deleteBtn {
   background: none;
   border: none;
   color: #fff;
@@ -113,7 +114,7 @@
 .card {
   background: #f5f7fa;
   border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   padding: 16px 14px 10px 14px;
   margin-bottom: 4px;
   position: relative;
