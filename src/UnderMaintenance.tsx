@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./UnderMaintenance.css";
-import devImg from "./dev.jpg"; // Place your dev image as dev.jpg in src/
+import devImg from "./dev.jpg";
 
 const JCE_ANIMATION_DURATION = 1200; // ms
 
@@ -20,14 +20,14 @@ const UnderMaintenance: React.FC = () => {
             setShowJCE(false);
             setProgress(0);
             intervalRef.current = window.setInterval(() => {
-              setProgress((p) => (p >= 100 ? p : p + Math.random() * 2 + 1));
-            }, 30);
+              setProgress((p) => (p >= 100 ? p : p + Math.random() * 0.5 + 0.2)); // slower increment
+            }, 50); // slower interval
           }, JCE_ANIMATION_DURATION);
           return 100;
         }
-        return prev + Math.random() * 2 + 1;
+        return prev + Math.random() * 0.3 + 0.01; // slower increment
       });
-    }, 30);
+    }, 50); // slower interval
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
